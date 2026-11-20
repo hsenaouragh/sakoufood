@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Cairo:Bold';
+  src: url('https://static.figma.com/font/Cairo_slnt_wght__1') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@theme {
+  --font-cairo-bold: 'Cairo:Bold', sans-serif;
+}
+
+@layer base {
+  body {
+    min-width: 320px;
+  }
+}

@@ -1,18 +1,15 @@
 import React from 'react'
 import Navbar from './components/navbar'
-import Hero from './components/hero'
-import Info from './components/info'
-import Products from './components/products'
-import Growth from './components/growth'
+import Landing from './pages/landing'
+import Footer from './components/footer'
+
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <Hero />
-      <Info />
-      <Products />
-      <Growth />
+      <Landing />
+      <Footer />
     </>
   )
 }

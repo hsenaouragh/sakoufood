@@ -1,5 +1,6 @@
 import React from 'react'
 import { Star , Award , ShieldCheck , Truck} from 'lucide-react'
+import QualityHome from '../assets/quality-home.jpeg'
 
 const Info = () => {
   return (
@@ -58,6 +59,7 @@ const Info = () => {
             <h3 className='text-[#0E6B67] font-cairo-bold'>Quality and Responsibility</h3>
             <h1 className='text-[#0D223F] font-cairo-bold text-2xl'>Confidence start with clear information</h1>
             <p className='text-[#445869] font-medium text-[17px]'>Review our quality approach, production capabilities and available documentation <br/>before discussing your requirements.</p>
+            <img src={QualityHome} className='max-w-2xl max-h-72 rounded-2xl'/>
         </div>
         <div className='flex flex-col gap-3'>
             <h3 className='text-[#0E6B67] font-medium font-cairo-bold'>Standards and Certifications</h3>

@@ -1,14 +1,21 @@
 import React from 'react'
 import Button from './ui/button'
+import ActivityCarousel from './ui/ActivityCarousel'
+import Activity1 from '../assets/activity1.jpeg'
+import Activity2 from '../assets/activity2.jpeg'
+import Activity3 from '../assets/activity3.jpeg'
+import Activity4 from '../assets/activity4.jpeg'
 
 const stats = [
   { label: 'Production capacity', value: '[ TO CONFIRM ]', unit: 'Tonnes / 2027' },
   { label: 'Markets served', value: '[ TO CONFIRM ]', unit: 'Zones / 2027' },
 ]
 
+const activities = [Activity1, Activity2, Activity3, Activity4];
+
 const Growth = () => {
   return (
-    <div className='min-h-[500px] bg-[#0D3241] flex flex-col p-10 gap-10'>
+    <div className='min-h-[500px] bg-[#0D3241] flex flex-col gap-10 pt-5'>
       <div className='flex flex-col ml-20 gap-4'>
         <h1 className='text-white font-cairo-bold text-2xl'>GROWTH AT A GLANCE</h1>
         <h3 className='text-[#1FC7B5] font-medium text-[17px]'>
@@ -32,6 +39,17 @@ const Growth = () => {
         <Button variant='secondary'>
           VIEW GROWTH STATISTICS
         </Button>
+      </div>
+
+      {/* CAROUSEL */}
+      <div>
+          <ActivityCarousel
+            images={activities}
+            imageWidth="400px"
+            imageHeight="250px"
+            speed={30}
+            className="my-8"
+          />
       </div>
     </div>
   )

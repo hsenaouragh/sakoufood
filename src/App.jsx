@@ -11,6 +11,7 @@ import Navbar from './components/navbar';
 import Landing from './pages/landing';
 import ProductsPage from './pages/productsPage';
 import InfoPage from './pages/infoPage'
+import GrowthPage from './pages/growthPage'
 import Footer from './components/footer';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/Home" element={<Landing />} />
           <Route path="/Products" element={<ProductsPage />} />
           <Route path="/WhoWeAre" element={<InfoPage />} />
+          <Route path="/GrowthStatistics" element={<GrowthPage />} />
           
 
           {/* Fallback for unknown routes */}

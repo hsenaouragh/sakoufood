@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Award, ShieldCheck, FileCheck } from 'lucide-react'
 import SakouBg from '../assets/sakou-bg.png'
+import Timeline, { Reveal } from '../components/ui/TimeLine'
 
 /* ==================================================================
    DATA: edit here, the sections below are fully data-driven
@@ -86,45 +87,6 @@ const MILESTONES = [
 /* ==================================================================
    SMALL HELPERS (used only by this page)
 ================================================================== */
-
-// Fades/slides content in when it enters the viewport.
-// Disabled automatically for users with prefers-reduced-motion.
-const Reveal = ({ children, delay = 0, className = '' }) => {
-  const ref = useRef(null)
-  const [shown, setShown] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (typeof IntersectionObserver === 'undefined') {
-      setShown(true)
-      return
-    }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true)
-          io.disconnect()
-        }
-      },
-      { threshold: 0.15 }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out motion-reduce:!translate-y-0 motion-reduce:!opacity-100 motion-reduce:transition-none ${
-        shown ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
-      } ${className}`}
-    >
-      {children}
-    </div>
-  )
-}
 
 // Eyebrow + title + supporting text, in the site's heading style
 const SectionHeading = ({ eyebrow, title, text }) => (
@@ -398,40 +360,96 @@ const InfoPage = () => {
             </div>
         </section>
 
-        {/* QUALITY & RESPONSIBILITY */}
-        <section id='our-commitment' className='bg-[#E0F2EF] px-5 py-16 sm:px-10 lg:px-20 lg:py-24'>
-          <div className='mx-auto max-w-6xl'>
+       {/* QUALITY & RESPONSIBILITY */}
+        <section
+          id="our-commitment"
+          className="bg-[#0d2137] px-5 py-14 sm:px-10 lg:px-20 lg:py-20"
+        >
+          <div className="mx-auto max-w-6xl">
+
+            {/* SECTION TITLE */}
             <Reveal>
-              <SectionHeading
-                eyebrow='Our commitment'
-                title='Quality and Responsibility'
-                text='Building confidence through attention to product quality, responsible practices and clear communication with our business partners.'
-              />
+              <h2 className="font-cairo-bold text-2xl font-bold text-white sm:text-3xl">
+                Quality standards & responsibility
+              </h2>
             </Reveal>
 
-            <ul className='mt-12 grid gap-6 md:grid-cols-3'>
-              {COMMITMENTS.map(({ number, icon: Icon, title, text }, i) => (
-                <li key={title}>
-                  <Reveal delay={i * 150} className='h-full'>
-                    <article className='flex h-full flex-col rounded-2xl border border-[#0D223F]/5 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8 motion-reduce:transition-none motion-reduce:hover:translate-y-0'>
-                      <div className='flex items-center justify-between'>
-                        <span className='grid h-12 w-12 place-items-center rounded-xl bg-[#E0F2EF] text-[#0E6B67]'>
-                          <Icon className='h-6 w-6' aria-hidden='true' />
-                        </span>
-                        <span className='font-cairo-bold text-2xl font-bold text-[#00BFA5]'>{number}</span>
-                      </div>
-                      <h3 className='mt-6 font-cairo-bold text-xl font-bold text-[#0D223F]'>{title}</h3>
-                      <p className='mt-3 text-sm font-medium leading-relaxed text-[#445869]'>{text}</p>
-                    </article>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
+            {/* CONTENT */}
+            <div className="mt-8 grid gap-10 md:grid-cols-2 md:items-center md:gap-16">
+
+              {/* LEFT: OUR COMMITMENT */}
+              <Reveal>
+                <div className="flex flex-col gap-4">
+
+                  <h3 className="font-cairo-bold text-lg font-bold text-[#1FC7B5]">
+                    Our commitment
+                  </h3>
+
+                  <p className="max-w-lg text-sm font-medium leading-relaxed text-white/75">
+                    We place quality at the centre of the conversation with our
+                    customers. Product safety, traceability and cold-chain
+                    requirements should be supported by clear, relevant
+                    documentation.
+                  </p>
+
+                  <p className="max-w-lg text-xs leading-relaxed text-white/55">
+                    Ask us about sourcing policies, environmental practices and
+                    the evidence relevant to your market.
+                  </p>
+
+                </div>
+              </Reveal>
+
+              {/* RIGHT: DOCUMENTATION CARD */}
+              <Reveal delay={150}>
+                <div className="rounded-xl border border-white/5 bg-white/[0.06] p-6 sm:p-7">
+
+                  <h3 className="mb-5 font-cairo-bold text-lg font-bold text-white">
+                    Documentation to confirm
+                  </h3>
+
+                  <div className="flex flex-col gap-4">
+
+                    {/* ITEM 1 */}
+                    <div>
+                      <h4 className="font-cairo-bold text-sm font-semibold text-[#1FC7B5]">
+                        Standards & certifications
+                      </h4>
+                      <p className="mt-1 text-xs leading-relaxed text-white/65">
+                        Applicable standards and certificates to confirm.
+                      </p>
+                    </div>
+
+                    {/* ITEM 2 */}
+                    <div>
+                      <h4 className="font-cairo-bold text-sm font-semibold text-[#1FC7B5]">
+                        Traceability & handling
+                      </h4>
+                      <p className="mt-1 text-xs leading-relaxed text-white/65">
+                        Available records and procedures to confirm.
+                      </p>
+                    </div>
+
+                    {/* ITEM 3 */}
+                    <div>
+                      <h4 className="font-cairo-bold text-sm font-semibold text-[#1FC7B5]">
+                        Responsibility policies
+                      </h4>
+                      <p className="mt-1 text-xs leading-relaxed text-white/65">
+                        Sourcing and environmental policies to confirm.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </Reveal>
+
+            </div>
           </div>
         </section>
-
+        
         {/* OUR JOURNEY (vertical on mobile, horizontal on desktop) */}
-        <section id='our-journey' className='bg-white px-5 py-16 sm:px-10 lg:px-20 lg:py-24'>
+       <section id='our-journey' className='bg-white px-5 py-16 sm:px-10 lg:px-20 lg:py-24'>
           <div className='mx-auto max-w-6xl'>
             <Reveal>
               <SectionHeading
@@ -441,49 +459,7 @@ const InfoPage = () => {
               />
             </Reveal>
 
-            <ol
-              className='relative mt-14 grid gap-10 lg:grid-cols-[repeat(var(--n),minmax(0,1fr))] lg:gap-6'
-              style={{ '--n': MILESTONES.length }}
-            >
-              {/* the line */}
-              <span
-                aria-hidden='true'
-                className='absolute bottom-0 left-[7px] top-0 w-px bg-[#0E6B67]/25 lg:bottom-auto lg:left-0 lg:right-0 lg:top-[7px] lg:h-px lg:w-full'
-              />
-
-              {MILESTONES.map((m, i) => (
-                <li key={`${m.title}-${i}`} className='relative pl-9 lg:pl-0 lg:pt-10'>
-                  {/* the dot */}
-                  <span
-                    aria-hidden='true'
-                    className='absolute left-0 top-1 h-[15px] w-[15px] rounded-full border-[3px] border-white bg-[#00BFA5] shadow ring-1 ring-[#0E6B67]/30 lg:top-0'
-                  />
-                  <Reveal delay={i * 150} className='h-full'>
-                    <article
-                      className={`flex h-full flex-col overflow-hidden rounded-2xl bg-[#E0F2EF]/60 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
-                        m.placeholder
-                          ? 'border border-dashed border-[#0E6B67]/40'
-                          : 'border border-[#0D223F]/5'
-                      }`}
-                    >
-                      {m.image && (
-                        <img src={m.image} alt={m.title} loading='lazy' className='aspect-video w-full object-cover' />
-                      )}
-                      <div className='p-5 sm:p-6'>
-                        <p className='font-cairo-bold text-2xl font-bold text-[#0E6B67]'>{m.year}</p>
-                        <h3 className='mt-2 font-cairo-bold text-base font-bold text-[#0D223F]'>{m.title}</h3>
-                        <p className='mt-2 text-sm font-medium leading-relaxed text-[#445869]'>{m.description}</p>
-                        {m.placeholder && (
-                          <span className='mt-4 inline-block rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#0E6B67]'>
-                            Placeholder · to confirm
-                          </span>
-                        )}
-                      </div>
-                    </article>
-                  </Reveal>
-                </li>
-              ))}
-            </ol>
+            <Timeline className='mt-14' milestones={MILESTONES} />
           </div>
         </section>
 

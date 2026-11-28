@@ -1,42 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import PRODUCTS from '../data/products'
 
 const FAMILIES = ['Tuna', 'Sardines']
 const FLAVORS = ['Sunflower oil', 'Tomato', 'Spicy oil', 'Natural', 'Citrus & fine herbs']
 const FLAVOR_ITEMS = ['All', ...FLAVORS]
 
-// Add a new card by adding an object here. Leave fields as 'To confirm' until final.
-const PRODUCTS = [
-  {
-    id: 1,
-    name: '[Product name]',
-    family: 'Tuna',
-    flavor: 'Sunflower oil',
-    packSize: 'To confirm',
-    image: '/products/product-1.jpg',
-  },
-  {
-    id: 2,
-    name: '[Product name]',
-    family: 'Sardines',
-    flavor: 'Tomato',
-    packSize: 'To confirm',
-    image: '/products/product-2.jpg',
-  },
-  {
-    id: 3,
-    name: '[Product name]',
-    family: 'Tuna',
-    flavor: 'Spicy oil',
-    packSize: 'To confirm',
-    image: '/products/product-3.jpg',
-  },
-  // { id: 4, name: '...', family: 'Sardines', flavor: 'Natural', packSize: '...', image: '...' },
-]
-
 const fieldClass =
   'w-full rounded-lg border border-[#0D3241]/15 bg-white px-4 py-2.5 text-sm text-[#0D3241] placeholder:text-[#0D3241]/50 outline-none transition focus:border-[#1FC7B5] focus:ring-1 focus:ring-[#1FC7B5]'
 
-const ProductCatalogue = ({ products = PRODUCTS, onSelectProduct }) => {
+/* selectedId       -> id of the product whose specifications are open
+   onSelectProduct  -> called with the product when "View specifications" is clicked */
+const ProductCatalogue = ({ products = PRODUCTS, selectedId = null, onSelectProduct }) => {
   const [family, setFamily] = useState('All')
   const [flavor, setFlavor] = useState('All')
   const [query, setQuery] = useState('')
@@ -253,56 +227,69 @@ const ProductCatalogue = ({ products = PRODUCTS, onSelectProduct }) => {
         {/* Cards */}
         {filtered.length > 0 ? (
           <div className='mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
-            {filtered.map((p) => (
-              <article
-                key={p.id}
-                className='flex flex-col overflow-hidden rounded-xl border border-[#0D3241]/10 bg-white shadow-sm transition hover:shadow-md'
-              >
-                {/* Image (gradient fallback if no image) */}
-                <div className='aspect-[16/9] w-full bg-gradient-to-br from-[#0D3241] to-[#1FC7B5]'>
-                  {p.image && (
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      loading='lazy'
-                      className='h-full w-full object-cover'
-                      onError={(e) => (e.currentTarget.style.display = 'none')}
-                    />
-                  )}
-                </div>
+            {filtered.map((p) => {
+              const selected = p.id === selectedId
+              return (
+                <article
+                  key={p.id}
+                  data-selected={selected}
+                  className={`flex flex-col overflow-hidden rounded-xl border bg-white transition duration-300 motion-reduce:transform-none motion-reduce:transition-none ${
+                    selected
+                      ? '-translate-y-1 border-[#0D3241] shadow-xl ring-2 ring-[#0D3241]'
+                      : 'border-[#0D3241]/10 shadow-sm hover:-translate-y-1 hover:border-[#0D3241]/40 hover:shadow-md'
+                  }`}
+                >
+                  {/* Image (gradient fallback if no image) */}
+                  <div className='aspect-[16/9] w-full bg-gradient-to-br from-[#0D3241] to-[#1FC7B5]'>
+                    {p.image && (
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading='lazy'
+                        className='h-full w-full object-cover'
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                      />
+                    )}
+                  </div>
 
-                <div className='flex flex-1 flex-col gap-3 p-4'>
-                  <p className='text-[10px] text-[#0D3241]/60'>
-                    Range illustration • not product photography
-                  </p>
-                  <p className='text-[10px] font-bold uppercase tracking-wide text-teal-700'>
-                    {p.family}
-                  </p>
-                  <h3 className='font-cairo-bold text-xl font-bold text-[#0D3241]'>{p.name}</h3>
+                  <div className='flex flex-1 flex-col gap-3 p-4'>
+                    <p className='text-[10px] text-[#0D3241]/60'>
+                      Range illustration • not product photography
+                    </p>
+                    <p className='text-[10px] font-bold uppercase tracking-wide text-teal-700'>
+                      {p.family}
+                    </p>
+                    <h3 className='font-cairo-bold text-xl font-bold text-[#0D3241]'>{p.name}</h3>
 
-                  <dl className='divide-y divide-[#0D3241]/10 text-sm'>
-                    {[
-                      ['Family', p.family],
-                      ['Flavor', p.flavor],
-                      ['Pack size', p.packSize],
-                    ].map(([label, value]) => (
-                      <div key={label} className='flex justify-between py-2'>
-                        <dt className='text-[#0D3241]/70'>{label}</dt>
-                        <dd className='font-bold text-[#0D3241]'>{value}</dd>
-                      </div>
-                    ))}
-                  </dl>
+                    <dl className='divide-y divide-[#0D3241]/10 text-sm'>
+                      {[
+                        ['Family', p.family],
+                        ['Flavor', p.flavor],
+                        ['Pack size', p.packSize],
+                      ].map(([label, value]) => (
+                        <div key={label} className='flex justify-between py-2'>
+                          <dt className='text-[#0D3241]/70'>{label}</dt>
+                          <dd className='font-bold text-[#0D3241]'>{value}</dd>
+                        </div>
+                      ))}
+                    </dl>
 
-                  <button
-                    type='button'
-                    onClick={() => onSelectProduct?.(p)}
-                    className='mt-auto rounded-lg border border-[#0E6B67] py-2.5 text-sm font-semibold text-[#0E6B67] transition hover:bg-[#0E6B67] hover:text-white'
-                  >
-                    View specifications
-                  </button>
-                </div>
-              </article>
-            ))}
+                    <button
+                      type='button'
+                      aria-pressed={selected}
+                      onClick={() => onSelectProduct?.(p)}
+                      className={`mt-auto rounded-lg border py-2.5 text-sm font-semibold transition ${
+                        selected
+                          ? 'border-[#0D3241] bg-[#0D3241] text-white'
+                          : 'border-[#0E6B67] text-[#0E6B67] hover:border-[#0D3241] hover:bg-[#0D3241] hover:text-white'
+                      }`}
+                    >
+                      {selected ? 'Viewing specifications' : 'View specifications'}
+                    </button>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         ) : (
           <div className='mt-6 rounded-xl border border-dashed border-[#0D3241]/20 p-10 text-center'>
@@ -321,8 +308,6 @@ const ProductCatalogue = ({ products = PRODUCTS, onSelectProduct }) => {
           Catalogue preview • final product range to confirm
         </p>
       </div>
-
-      
     </section>
   )
 }
